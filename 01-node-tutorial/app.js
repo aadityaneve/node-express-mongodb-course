@@ -1,16 +1,30 @@
-console.log('Welcome to Node Tutorial')
+const { readFile } = require('fs');
 
+const getText = (path) => {
+  return new Promise((resolve, reject) =>{
+    readFile(path, 'utf-8', (err, data) => {
+      if(err){
+        reject(err)
+      }else{
+        resolve(data)
+      }
+    })
+  })
+}
 
-const { readFile, writeFile } = require('fs')
-
-console.log('started a first task')
-// CHECK FILE PATH!!!!
-readFile('./content/first.txt', 'utf8', (err, result) => {
-  if (err) {
-    console.log(err)
-    return
+const start = async() => {
+  try {
+    const first = await getText('./content/first.txt')
+    const second = await getText('./content/second.txt')
+    console.log(`${first}, ${second}`);
+  } catch (error) {
+    console.log(error);
   }
-  console.log(result)
-  console.log('completed first task')
-})
-console.log('starting next task')
+}
+
+start()
+
+
+// getText('./content/first.txt')
+//   .then((result) => console.log(result))
+//   .catch((err) => console.log(err))
